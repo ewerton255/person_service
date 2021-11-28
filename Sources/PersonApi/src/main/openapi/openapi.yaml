@@ -84,6 +84,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorInfo'
+        409:
+          description: Bad request. Check the message for more details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
                 
   /person/{personId}:
     get:

@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "4c4d95c4-5157-4259-9521-fad937204c88",
+		"name": "PersonApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get people",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/person",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add person with valid e-mail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"User for test\",\r\n    \"email\": \"userfortest@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/person",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add person with e-mail already registered",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"User for test\",\r\n    \"email\": \"user1@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/person",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit person",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"User for test 2\",\r\n    \"email\": \"user1@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/person/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"person",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete person with valid id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/person/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"person",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete person with invalid id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/person/99",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"person",
+						"99"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

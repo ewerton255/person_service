@@ -1,6 +1,13 @@
 package br.com.edcor.PersonApi.db;
 
-import javax.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -18,7 +25,8 @@ public class PersonTO {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "dt_creation")
+    @CreationTimestamp
+    @Column(name = "dt_creation", updatable = false)
     private OffsetDateTime dtCreation;
 
     @Column(name = "dt_last_update")
