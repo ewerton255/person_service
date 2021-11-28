@@ -1,0 +1,40 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./infile:/infile
+      - ./pg_data:/var/lib/postgresql/data/
+
+  person:
+    build: .
+    ports:
+      - "8081:8080"
+    networks:
+      - services_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "15"
+    deploy:
+      resources:
+        limits:
+          memory: 600M
+        reservations:
+          memory: 300M
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+    
+networks:
+  services_network:
+    name: services_network

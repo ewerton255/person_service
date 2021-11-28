@@ -1,0 +1,253 @@
+openapi: 3.0.3
+info:
+  title: Person Api
+  description: 'Through this Api administrators can create, edit, delete and search people'
+  contact:
+    email: e.d.correia@hotmail.com
+  version: 1.0.0
+paths:
+  /person:
+    get:
+      tags:
+        - Person
+      summary: Lists people registered on Person Api Database. Offers the possibility of adding filters.
+      operationId: ListPeople 
+      parameters:
+        - in: query
+          name: name
+          description: The person's name
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: email
+          description: The person's email
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: offset
+          description: The offset used in the pagination. The default value is 0.
+          schema:
+            type: integer
+            default: 0
+          required: false
+        - in: query
+          name: limit
+          description: The limit used in the pagination. The default value is 25.
+          schema:
+            type: integer
+            default: 25
+          required: false
+        - in: query
+          name: order
+          schema:
+            $ref: '#/components/schemas/OrderEnum'
+          required: false
+      responses:
+        200:
+          description: List of Group object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+        400:
+          description: Bad request. Check the message for more details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+
+    post:
+      tags:
+        - Person
+      summary: Register people database on Person Database.
+      operationId: addPerson 
+      requestBody:
+        description: The AddCardToGroupRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPersonRequest'
+      responses:
+        200:
+          description: Person object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        400:
+          description: Bad request. Check the message for more details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+                
+  /person/{personId}:
+    get:
+      tags:
+        - Person
+      summary: Search a person by their identifier.
+      operationId: FindPersonById 
+      parameters:
+        - in: path
+          name: personId
+          description: The Person unique identifier on Person Database.
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        200:
+          description: List of Person object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        400:
+          description: Bad request. Check the message for more details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+                
+    put:
+      tags:
+        - Person
+      summary: Edit information of the person corresponding to the id received in path param.
+      operationId: EditPerson 
+      parameters:
+        - in: path
+          name: personId
+          description: The Person unique identifier on Person Database.
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        description: The AddCardToGroupRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditPersonRequest'
+      responses:
+        200:
+          description: Person object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        400:
+          description: Bad request. Check the message for more details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+                
+    delete:
+      tags:
+        - Person
+      summary: Delete the person corresponding to the id received in the database path param
+      operationId: DeletePerson
+      parameters:
+        - in: path
+          name: personId
+          description: The Person unique identifier on Person Database.
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        200:
+          description: Success.
+        400:
+          description: Bad request. Check the message for more details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+                
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: The Person unique identifier on Person Database.
+        name:
+          type: string
+          description: Person's name.
+        email:
+          type: string
+          description: Person's email.
+        dtCreation:
+          type: string
+          format: date-time
+          example: '2021-06-20T09:12:28Z'
+        dtLastUpdate:
+          type: string
+          format: date-time
+          example: '2021-07-20T12:00:28Z'
+    
+    AddPersonRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Person's name.
+        email:
+          type: string
+          description: Person's email.
+          
+    EditPersonRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Person's name.
+        email:
+          type: string
+          description: Person's email.
+          
+    OrderEnum:
+      type: string
+      description: The order that the result set will be sorted. Valid values are ASC and DESC. The default value is ASC.
+      enum:
+        - ASC
+        - DESC
+      default: ASC
+      
+    ErrorInfo:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: The date-time when the error occurred string formatted.
+        status:
+          type: integer
+          format: int32
+          description: The status code of the error.
+        error:
+          $ref: '#/components/schemas/ErrorTypeEnum'
+        message:
+          type: string
+          description: Error message for troubleshooting purpose.
+      example:
+        requestID: 1
+        timestamp: '2017-07-21T17:32:28Z'
+        status: 400
+        error: INVALID_REQUEST
+        message: invalid request.
+        
+    ErrorTypeEnum:
+      type: string
+      description: The type of the error. Supported values are CONFIGURATION, DATABASE, EXTERNAL, INVALID_REQUEST and MAPPING.
+      enum:
+        - CONFIGURATION
+        - DATABASE
+        - INVALID_REQUEST
+        - MAPPING
