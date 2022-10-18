@@ -6,9 +6,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface PersonTORepository extends JpaRepository<PersonTO, Long> {
+public interface PersonRepository extends JpaRepository<Person, Long> {
 
     @Query(value = "SELECT P FROM PersonTO P WHERE UPPER(P.email) LIKE UPPER(:email) and (:personId IS NULL " +
             "OR :personId <> P.id) ")
-    Optional<PersonTO> findByEmailAndIdDifferentFrom(@Param("email") String email, @Param("personId") Long personId);
+    Optional<Person> findByEmailAndIdDifferentFrom(@Param("email") String email, @Param("personId") Long personId);
 }

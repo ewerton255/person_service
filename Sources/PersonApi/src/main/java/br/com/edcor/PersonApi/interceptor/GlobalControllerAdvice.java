@@ -1,4 +1,4 @@
-package br.com.edcor.PersonApi.api;
+package br.com.edcor.PersonApi.interceptor;
 
 import br.com.edcor.PersonApi.exceptions.FlowException;
 import br.com.edcor.PersonApi.openapi.ErrorInfo;
